@@ -10,6 +10,7 @@ int main(int argc, char ** argv)
 
 	AFND * p_afnd;
 	AFND * afd;
+	int i;
 	
 	p_afnd= AFNDNuevo("af11", 6, 3);
 	
@@ -38,7 +39,9 @@ int main(int argc, char ** argv)
 
 	afd  = AFNDTransforma(p_afnd);
 	AFNDImprime(stdout,afd);
+	printf("\n");
 	AFNDADot(afd);
+	printf("\n");
 	
 	AFNDElimina(afd);
 	AFNDElimina(p_afnd);
