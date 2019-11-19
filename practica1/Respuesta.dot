@@ -1,0 +1,12 @@
+digraph Respuesta  { rankdir=LR;
+	_invisible [style="invis"];
+	q0 [penwidth="2"];
+	q1q2q3 [penwidth="2"];
+	q0q2q3 [penwidth="2"];
+	_invisible -> q0 ;
+	q0 -> q1q2q3 [label="a"];
+	q1q2q3 -> q0q2q3 [label="a"];
+	q1q2q3 -> q0q2q3 [label="b"];
+	q0q2q3 -> q1q2q3 [label="a"];
+	q0q2q3 -> q0q2q3 [label="b"];
+}

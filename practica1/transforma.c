@@ -25,7 +25,7 @@ int comparar_estados(Estado estado1, Estado estado2){
 
     if(estado1.num_estados == estado2.num_estados){
         for(; i < estado1.num_estados; i++){
-            for(j=i; j < estado2.num_estados; j++){
+            for(j=0; j < estado2.num_estados; j++){
                 if(estado1.estados[i] == estado2.estados[j]){
                     estados_parejos++;
                 }
