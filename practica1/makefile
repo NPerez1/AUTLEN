@@ -1,12 +1,12 @@
 CC = gcc
-CFLAGS = -Wall -g -pedantic
+CFLAGS = -Wall -g -pedantic -ansi
 EXE = ejemplo ejemplo2 ejemplo3
 
 all : $(EXE)
 
 .PHONY : clean
 clean :
-	rm -f *.o *.dot *.pdf $(EXE)
+	rm -f *.o *.dot $(EXE)
 
 $(EXE) : % : %.o afnd.o transforma.o
 	@echo "#---------------------------"

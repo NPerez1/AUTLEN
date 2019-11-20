@@ -6,6 +6,7 @@
 
 #define MAX_ESTADOS 200
 #define TAM_NOMBRE 50
+#define MAX_SIMBOLOS 20
 
 typedef struct {
     int id;
@@ -158,7 +159,7 @@ AFND * AFNDTransforma(AFND * afnd){
     Estado nuevos_estados[MAX_ESTADOS];
     const int afndNumSim = AFNDNumSimbolos(afnd);
     int i, j, iter_nuevosestados = 0;
-    int trans_table[MAX_ESTADOS][afndNumSim];
+    int trans_table[MAX_ESTADOS][MAX_SIMBOLOS];
     int transiciona;
     AFND * afd;
 
