@@ -10,7 +10,6 @@ int main(int argc, char ** argv)
 
 	AFND * p_afnd;
 	AFND * afd;
-	int i;
 	
 	p_afnd= AFNDNuevo("af11", 6, 3);
 	

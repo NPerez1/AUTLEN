@@ -156,7 +156,7 @@ int comprobar_si_final(Estado estado, AFND * afnd){
 
 AFND * AFNDTransforma(AFND * afnd){
     Estado nuevos_estados[MAX_ESTADOS];
-    int afndNumSim = AFNDNumSimbolos(afnd);
+    const int afndNumSim = AFNDNumSimbolos(afnd);
     int i, j, iter_nuevosestados = 0;
     int trans_table[MAX_ESTADOS][afndNumSim];
     int transiciona;
