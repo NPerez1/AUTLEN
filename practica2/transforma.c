@@ -4,18 +4,7 @@
 #include "transforma.h"
 #include <string.h>
 
-#define MAX_ESTADOS 200
-#define TAM_NOMBRE 50
-#define MAX_SIMBOLOS 20
 
-typedef struct {
-    int id;
-    int estados[MAX_ESTADOS];
-    int num_estados;
-} Estado;
-
-int id = 0;
-int num_creados = 0;
 
 /* Compara dos estados
  * Dos estamos son iguales si su subconjunto de subestados son iguales
@@ -166,6 +155,9 @@ AFND * AFNDTransforma(AFND * afnd){
     if(!afnd){
         return NULL;
     }
+
+    id = 0;
+    num_creados = 0;
 
     /* Calculo del estado inicial:
      * Son los estados a los que se puede acceder desde q0 sin consumir símbolos de entrada
