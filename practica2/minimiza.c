@@ -44,6 +44,7 @@ AFND * AFNDMinimiza(AFND * afnd){
         } else {
             /* Clase con los estados no finales */
             insertar_estado(&nuevos_estados[1], i);
+            
         }
     }
 
