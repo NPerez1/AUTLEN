@@ -106,8 +106,14 @@ AFND * AFNDMinimiza(AFND * afd){
 
     ind_ini = AFNDIndiceEstadoInicial(afd);
 
-    for(j=0; j < num_estados; j++){
-        if(tabla_distinguibles[j][ind_ini] == 0){
+    for(i=ind_ini+1; i < num_estados; i++){
+        if(tabla_distinguibles[i][ind_ini] == 0){
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, i), AFNDNombreEstadoEn(afd, ind_ini));
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, ind_ini), AFNDNombreEstadoEn(afd, i));
+        }
+    }
+    for(j=0; j < ind_ini; j++){
+        if(tabla_distinguibles[ind_ini][j] == 0){
             AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, j), AFNDNombreEstadoEn(afd, ind_ini));
             AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, ind_ini), AFNDNombreEstadoEn(afd, j));
         }
