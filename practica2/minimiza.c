@@ -20,44 +20,99 @@ int subestado_en_estado(Estado estado, int subestado){
     return 0;
 }
 
-AFND * AFNDMinimiza(AFND * afnd){
-    AFND * afd, * minimizado;
-    Estado nuevos_estados[MAX_ESTADOS];
-    int i, j;
-    int num_estados, tipo_estado;
-    int num_estados_antes = 0;
-    int tabla_distinguibles[MAX_ESTADOS][MAX_ESTADOS];
+int buscar_trans(int estado, int simb, AFND * afd){
+    int j;
+
+    for(j = 0; j < AFNDNumEstados(afd); j++){
+        if(AFNDTransicionIndicesEstadoiSimboloEstadof(afd, estado, simb, j) == 1){
+            return j;
+        }
+    }
+    return -1;
+}
+
+AFND * AFNDMinimiza(AFND * afd){
+    int i, j, k, tipo1, tipo2, changed=1;
+    int num_estados, num_simbolos, salida1, salida2;
+    int ind_ini;
+    int tabla_distinguibles[20][20];
 
     /* Hacemos el automata determinista por si acaso
      * y eliminamos los estados no accesibles y no productivos */
-    afd = AFNDTransforma(afnd);
     num_estados = AFNDNumEstados(afd);
+    num_simbolos = AFNDNumSimbolos(afd);
 
-    /* Separamos en dos estados indistiguibles los estados finales y no finales */
-    inicializar_estado(&nuevos_estados[num_creados]);
-    inicializar_estado(&nuevos_estados[num_creados]);
-    for(i = 0; i < num_estados; i++){
-        tipo_estado = AFNDTipoEstadoEn(afd, i);
-        if(tipo_estado == 1 || tipo_estado == 2){
-            /* Clase con los estados finales */
-            insertar_estado(&nuevos_estados[0], i);
-        } else {
-            /* Clase con los estados no finales */
-            insertar_estado(&nuevos_estados[1], i);
-            
+    /*
+     * TABLA
+     */
+
+    for(i=1; i < num_estados; i++){
+        for(j=0; j < i; j++){
+            tipo1 = AFNDTipoEstadoEn(afd, i);
+            tipo2 = AFNDTipoEstadoEn(afd, j);
+            if(tipo1 == FINAL || tipo1 == INICIAL_Y_FINAL){
+                if(tipo2 == FINAL || tipo2 == INICIAL_Y_FINAL){
+                    tabla_distinguibles[i][j] = 0;
+                }
+                else{
+                    tabla_distinguibles[i][j] = 1;
+                }
+            }
+            else{
+                if(tipo2 == FINAL || tipo2 == INICIAL_Y_FINAL){
+                    tabla_distinguibles[i][j] = 1;
+                }
+                else{
+                    tabla_distinguibles[i][j] = 0;
+                }
+            }
         }
     }
 
-    while(num_estados != num_estados_antes){
-        num_estados_antes = num_estados;
-
-        /* Para todos nuevos_estados con num_estados > 1 
-         * sacar sus subestados de 2 en 2
-         * comprobar que por cada simbolo lleven al mismo estado*/
-
-
+    while(changed==1){
+        changed=0;
+        for(i=1; i < num_estados; i++){
+            for(j=0; j < i; j++){
+                if(tabla_distinguibles[i][j] == 0){
+                    for(k=0; k < num_simbolos; k++){
+                        salida1 = buscar_trans(i, k, afd);
+                        salida2 = buscar_trans(j, k, afd);
+                        if(salida1 < salida2){
+                            if(tabla_distinguibles[salida2][salida1] == 1){
+                                tabla_distinguibles[i][j] = 1;
+                                changed=1;
+                                break;
+                            }
+                        }
+                        else if(salida1 > salida2){
+                            if(tabla_distinguibles[salida1][salida2] == 1){
+                                tabla_distinguibles[i][j] = 1;
+                                changed=1;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    return afd;
+    for(i=1; i < num_estados; i++){
+        for(j=0; j < i; j++){
+            printf("[%d]", tabla_distinguibles[i][j]);
+        }
+        printf("\n");
+    }
+
+    ind_ini = AFNDIndiceEstadoInicial(afd);
+
+    for(j=0; j < num_estados; j++){
+        if(tabla_distinguibles[j][ind_ini] == 0){
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, j), AFNDNombreEstadoEn(afd, ind_ini));
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, ind_ini), AFNDNombreEstadoEn(afd, j));
+        }
+    }
+
+    return AFNDTransforma(afd);
 }
 

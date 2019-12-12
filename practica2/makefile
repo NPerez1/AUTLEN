@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -g -pedantic -ansi
-EXE = ejemplo ejemplo2
+EXE = ejemplo ejemplo2 ejemplo3
 
 all : $(EXE)
 
