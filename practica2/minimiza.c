@@ -34,7 +34,6 @@ int buscar_trans(int estado, int simb, AFND * afd){
 AFND * AFNDMinimiza(AFND * afd){
     int i, j, k, tipo1, tipo2, changed=1;
     int num_estados, num_simbolos, salida1, salida2;
-    int ind_ini;
     int tabla_distinguibles[20][20];
 
     /* Hacemos el automata determinista por si acaso
@@ -104,18 +103,12 @@ AFND * AFNDMinimiza(AFND * afd){
         printf("\n");
     }
 
-    ind_ini = AFNDIndiceEstadoInicial(afd);
-
-    for(i=ind_ini+1; i < num_estados; i++){
-        if(tabla_distinguibles[i][ind_ini] == 0){
-            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, i), AFNDNombreEstadoEn(afd, ind_ini));
-            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, ind_ini), AFNDNombreEstadoEn(afd, i));
-        }
-    }
-    for(j=0; j < ind_ini; j++){
-        if(tabla_distinguibles[ind_ini][j] == 0){
-            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, j), AFNDNombreEstadoEn(afd, ind_ini));
-            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, ind_ini), AFNDNombreEstadoEn(afd, j));
+    for(i=1; i < num_estados; i++){
+        for(j=0; j < i; j++){
+            if(tabla_distinguibles[i][j] == 0){
+                AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, j), AFNDNombreEstadoEn(afd, i));
+                AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, i), AFNDNombreEstadoEn(afd, j));
+            }
         }
     }
 
