@@ -40,7 +40,6 @@ p_afnd = AFNDNuevo("af1",8,2);
 
 	p_afnd_min = AFNDMinimiza(p_afnd);
 
-	AFNDADot(p_afnd);
 	AFNDADot(p_afnd_min);
 	AFNDImprime(stdout,p_afnd);
 	AFNDImprime(stdout,p_afnd_min);

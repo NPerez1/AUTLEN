@@ -7,19 +7,8 @@
 int id = 0;
 int num_creados = 0;
 
-/* Compprueba si un subestado esta dentro de un estado (clase)
- * Devuelve 1 si true y 0 si false */
-int subestado_en_estado(Estado estado, int subestado){
-    int i;
-
-    for(i = 0; i < estado.num_estados; i++){
-        if(estado.estados[i] == subestado){
-            return 1;
-        }
-    }
-    return 0;
-}
-
+/* Busca a donde transiciona un estado con un simbolo dado
+ * Devuelve id del estado o -1 */
 int buscar_trans(int estado, int simb, AFND * afd){
     int j;
 
@@ -96,6 +85,7 @@ AFND * AFNDMinimiza(AFND * afd){
         }
     }
 
+<<<<<<< HEAD
     for(i=1; i < num_estados; i++){
         for(j=0; j < i; j++){
             printf("[%d]", tabla_distinguibles[i][j]);
@@ -109,6 +99,20 @@ AFND * AFNDMinimiza(AFND * afd){
                 AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, j), AFNDNombreEstadoEn(afd, i));
                 AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, i), AFNDNombreEstadoEn(afd, j));
             }
+=======
+    ind_ini = AFNDIndiceEstadoInicial(afd);
+
+    for(i=ind_ini+1; i < num_estados; i++){
+        if(tabla_distinguibles[i][ind_ini] == 0){
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, i), AFNDNombreEstadoEn(afd, ind_ini));
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, ind_ini), AFNDNombreEstadoEn(afd, i));
+        }
+    }
+    for(j=0; j < ind_ini; j++){
+        if(tabla_distinguibles[ind_ini][j] == 0){
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, j), AFNDNombreEstadoEn(afd, ind_ini));
+            AFNDInsertaLTransicion(afd, AFNDNombreEstadoEn(afd, ind_ini), AFNDNombreEstadoEn(afd, j));
+>>>>>>> cf44474e35e3fafb92fb5731d357ca4019c689fd
         }
     }
 
